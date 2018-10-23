@@ -1,0 +1,4 @@
+enrich_plugin:
+  FL_USER: <Enter_fraudlogix_user>
+  FL_PASS: <Enter_fraudlogix_pass>
+
