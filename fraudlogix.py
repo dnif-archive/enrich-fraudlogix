@@ -9,8 +9,7 @@ path = os.environ["WORKDIR"]
 try:
     with open(path + "/enrichment_plugins/fraudlogix/dnifconfig.yml", 'r') as ymlfile:
         cfg = yaml.load(ymlfile)
-    fl_user = cfg['enrich_plugin']['FL_USER']
-    fl_pass = cfg['enrich_plugin']['FL_PASS']
+    fl_api = cfg['enrich_plugin']['FL_API']
 except Exception, e:
     logging.error("FraudLogix enrichment error in reading dnifconfig.yml: {}".format(e))
 
@@ -21,7 +20,7 @@ def import_ip_intel():
             'Content-Type': 'application/json'
         }
 
-        params = {'user': fl_user, 'password': fl_pass, 'method': 'json', 'threat_level': 'Default', 'show_level': 1,
+        params = {'akey': fl_api, 'method': 'json', 'threat_level': 'Default', 'show_level': 1,
                   'show_type': 1}
         url = "https://api.fraudlogix.com/iplookup/webservice.php"
         res = requests.post(url, params=params, headers=headers)
@@ -52,3 +51,4 @@ def import_ip_intel():
     except Exception,e:
         logging.error("FraudLogix enrichment error in requesting  API :{}".format(e))
     return lines,"INTEL_ADDR"
+
